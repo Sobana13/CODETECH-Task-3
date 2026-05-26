@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: linear-gradient(135deg,#1d2671,#c33764);
+    }
+
+    .player{
+      width:350px;
+      background:white;
+      border-radius:25px;
+      padding:25px;
+      text-align:center;
+      box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .player img{
+      width:220px;
+      height:220px;
+      border-radius:20px;
+      object-fit:cover;
+      margin-bottom:20px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .title{
+      font-size:24px;
+      font-weight:bold;
+      color:#333;
+      margin-bottom:8px;
+    }
+
+    .artist{
+      color:#777;
+      margin-bottom:20px;
+      font-size:16px;
+    }
+
+    audio{
+      width:100%;
+      margin-bottom:20px;
+    }
+
+    .controls{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:20px;
+    }
+
+    .controls button{
+      width:60px;
+      height:60px;
+      border:none;
+      border-radius:50%;
+      font-size:20px;
+      cursor:pointer;
+      background:#c33764;
+      color:white;
+      transition:0.3s;
+    }
+
+    .controls button:hover{
+      transform:scale(1.1);
+      background:#a82c54;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="player">
+
+    <!-- Album Image -->
+    <img
+      id="cover"
+      src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f"
+      alt="Music Cover"
+    >
+
+    <!-- Song Title -->
+    <div class="title" id="title">
+      Sample Song
+    </div>
+
+    <!-- Artist -->
+    <div class="artist" id="artist">
+      Unknown Artist
+    </div>
+
+    <!-- Audio -->
+    <audio id="audio" controls>
+      <source src="music.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Controls -->
+    <div class="controls">
+
+      <button onclick="prevSong()">⏮</button>
+
+      <button onclick="playPause()" id="playBtn">▶</button>
+
+      <button onclick="nextSong()">⏭</button>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const songs = [
+
+      {
+        title: "Sample Song 1",
+        artist: "Artist One",
+        src: "music1.mp3",
+        cover:
+        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f"
+      },
+
+      {
+        title: "Sample Song 2",
+        artist: "Artist Two",
+        src: "music2.mp3",
+        cover:
+        "https://images.unsplash.com/photo-1511379938547-c1f69419868d"
+      },
+
+      {
+        title: "Sample Song 3",
+        artist: "Artist Three",
+        src: "music3.mp3",
+        cover:
+        "https://images.unsplash.com/photo-1507838153414-b4b713384a76"
+      }
+
+    ];
+
+    let currentSong = 0;
+
+    const audio =
+      document.getElementById("audio");
+
+    const title =
+      document.getElementById("title");
+
+    const artist =
+      document.getElementById("artist");
+
+    const cover =
+      document.getElementById("cover");
+
+    const playBtn =
+      document.getElementById("playBtn");
+
+
+
+    function loadSong(song){
+
+      title.innerHTML = song.title;
+
+      artist.innerHTML = song.artist;
+
+      audio.src = song.src;
+
+      cover.src = song.cover;
+    }
+
+
+    loadSong(songs[currentSong]);
+
+
+
+    function playPause(){
+
+      if(audio.paused){
+
+        audio.play();
+
+        playBtn.innerHTML = "⏸";
+
+      } else {
+
+        audio.pause();
+
+        playBtn.innerHTML = "▶";
+      }
+    }
+
+
+
+    function nextSong(){
+
+      currentSong++;
+
+      if(currentSong >= songs.length){
+        currentSong = 0;
+      }
+
+      loadSong(songs[currentSong]);
+
+      audio.play();
+
+      playBtn.innerHTML = "⏸";
+    }
+
+
+
+    function prevSong(){
+
+      currentSong--;
+
+      if(currentSong < 0){
+        currentSong = songs.length - 1;
+      }
+
+      loadSong(songs[currentSong]);
+
+      audio.play();
+
+      playBtn.innerHTML = "⏸";
+    }
+
+
+
+    audio.addEventListener("ended", () => {
+      nextSong();
+    });
+
+  </script>
+
+</body>
+</html>
